@@ -161,7 +161,7 @@ class FFNN(nn.Module):
         for p, g in zip(params, grads):
             p.grad = g
 
-
+##old approach, tambien funciona
 """
     def backward(self, x, y, y_pred):
         current_grad = (y_pred - y) / y.size(0)
@@ -271,13 +271,14 @@ def entrenar_FFNN(red, dataset, optimizador, epochs=1, batch_size=1, reports_eve
     return loss, acc
 
 
-# Modelo sin dropout ni WD
+
 mnist_model = FFNN(784, [600, 200], [relu, relu],
                    10, keep_prob=[1.0, 0.5, 0.5])
 
-mnist_optimizer = SGD(mnist_model.parameters(), lr=1e-3, beta=0)
+#probar parametros
+mnist_optimizer = SGD(mnist_model.parameters(), lr=1e-3, beta=0.9)
 with torch.no_grad():
     mnist_loss, mnist_acc = entrenar_FFNN(
         mnist_model, dataset, mnist_optimizer, epochs=30, batch_size=1000)
-print("\n\t\t\tModelo sin dropout ni WD")
+#print("\n\t\t\tModelo sin dropout ni WD")
 plot_results(mnist_loss, mnist_acc)
